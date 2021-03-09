@@ -34,6 +34,8 @@ namespace splendor.net5.persistance.implementers
             _dbContext = _serviceProvider.GetRequiredService(dbContextType) as DbContext;
             _queryResolver = _serviceProvider.GetRequiredService(queryResolverType) as IQueryResolver;
         }
+
+        protected DC Context<DC>() where DC : DbContext => (DC) _dbContext;
         protected virtual Expression<Func<E, bool>> BaseExpression => default;
         public virtual async Task<E> Add (E entity) => (await _dbContext.Set<E>().AddAsync(entity)).Entity;
         public virtual async Task<E> Get(K id) => await _dbContext.Set<E>().FindAsync(id);
